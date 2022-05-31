@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>EJER9</title>
+</head>
+<style>
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        background-color: black;
+        color: white;
+        border-radius: 30px;
+        text-align: center;
+        font-size: 50px;
+        font-family: sans-serif;
+    }
+
+    img {
+        width: 200px;
+        height: 200px;
+    }
+
+    p {
+
+        color: black;
+        border-radius: 30px;
+        font-size: 40px;
+        font-family: sans-serif;
+        text-align: center;
+    }
+
+    .btn {
+        background-color: red;
+        border-radius: 30px;
+        width: 200px;
+        height: 50px;
+        color: white;
+        font-size: 12px;
+    }
+</style>
+
+<body>
+    <div>
+        <div>
+            <h1>JUEGO DE DADOS</h1>
+        </div>
+        <div>
+            <p><b>Lance los dados, el ganador será quien saque la suma más alta</b></p>
+        </div>
+    </div>
+    <div>
+        <button class="btn" onclick="lanzardados()">
+            <b>LANZAR DADOS</b>
+        </button><br><br><br>
+    </div>
+    <div>
+        <div class="d1">
+            <img src="./img/dados/rand.svg" class="dado" id="ImgDado1">
+        </div>
+        <div class="d2">
+            <img src="./img/dados/rand.svg" class="dado" id="ImgDado2">
+        </div>
+    </div>
+
+    <div>
+        <p><b>SUMA DE LOS DADOS</b></p>
+        <button class="btn">
+            <h2 id="SumaDados">0</h2>
+        </button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+    <script type='text/javascript'>
+        function getNumRand(min, max) {
+            return Math.round(Math.random() * (max - min) + parseInt(min));
+        }
+
+
+        function getNumRandUnique(min, max, arrayHistory) {
+            var NumAleatorio = getNumRand(min, max);
+
+            if (!arrayHistory.includes(NumAleatorio)) {
+                arrayHistory.push(NumAleatorio);
+                return NumAleatorio;
+            } else {
+                getNumRandUnique(min, max, arrayHistory)
+            }
+        }
+
+
+        function soloNumeros(e) {
+            var key = window.Event ? e.which : e.keyCode;
+            return ((key >= 48 && key <= 57) || (key == 8) || (key == 45));
+        }
+    </script>
+
+    <script type='text/javascript'>
+        function lanzardados() {
+            let dado1 = getNumRand(1, 6);
+            let dado2 = getNumRand(1, 6);
+            let suma = dado1 + dado2;
+
+            $({
+                deg: 0
+            }).animate({
+                deg: 360
+            }, {
+                duration: 600,
+                step: function (now) {
+                    var scale = (1 * now / 360);
+                    $('#ImgDado1').css({
+                        transform: 'rotate(' + now + 'deg) scale(' + scale + ')'
+                    });
+                    $('#ImgDado2').css({
+                        transform: 'rotate(' + now + 'deg) scale(' + scale + ')'
+                    });
+                }
+            });
+
+
+            document.getElementById("ImgDado1").src = "./img/dados/" + dado1 + ".svg";
+            document.getElementById("ImgDado2").src = "./img/dados/" + dado2 + ".svg";
+            document.getElementById("SumaDados").innerHTML = suma;
+
+        }
+    </script>
+
+    <footer>
+        <p><b>JOSE ANDRES MAMANI MOLLERICONA</b> </p>
+    </footer>
+
+</body>
+
+</html>
